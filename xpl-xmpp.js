@@ -55,7 +55,7 @@ commander.command('*').description("Start processing XMPP").action(
           }, "xmpp.received");
         });
 
-        xpl.on("xpl:xmpp-cmnd", function(message) {
+        xpl.on("xpl:xpl-cmnd", function(message) {
           console.log("Receive XPL", message);
 
           if (message.bodyName !== "xmpp.post") {
