@@ -39,9 +39,10 @@ function HangoutsBot(username, password, host, onlineStatus) {
   });
 
   connection.on('stanza', function(stanza) {
-    console.log("Stanza", stanza);
     if (stanza.is('message') && (stanza.attrs.type !== 'error') &&
         (stanza.getChildText('body'))) {
+      console.log("Message", util.inspect(stanza, {}));
+
       self.emit('message', stanza.attrs.from, stanza.getChildText('body'));
     }
 
