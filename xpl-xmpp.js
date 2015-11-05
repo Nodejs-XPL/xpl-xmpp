@@ -46,7 +46,7 @@ commander.command('*').description("Start processing XMPP").action(
         console.log("Xpl bind succeed ");
         // xpl.sendXplTrig(body, callback);
 
-        bot.on("message", from, message, function() {
+        bot.on("message", function(from, message) {
           xpl.sendXplTrig({
             from : from,
             message : message
