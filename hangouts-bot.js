@@ -39,6 +39,7 @@ function HangoutsBot(username, password, host, onlineStatus) {
   });
 
   connection.on('stanza', function(stanza) {
+    console.log("Stanza", stanza);
     if (stanza.is('message') && (stanza.attrs.type !== 'error') &&
         (stanza.getChildText('body'))) {
       self.emit('message', stanza.attrs.from, stanza.getChildText('body'));
@@ -65,12 +66,7 @@ HangoutsBot.prototype.sendMessage = function(to, message) {
     type : 'chat'
   });
 
-  var body = stanza.c('body');
-  body.t(message);
-  body
-      .c('img')
-      .attr("src",
-          "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-camera-128.png");
+  stanza.c('body').t(message);
 
   this.connection.send(stanza);
 }

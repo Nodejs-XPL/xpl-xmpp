@@ -2,6 +2,7 @@ var Xpl = require("xpl-api");
 var commander = require('commander');
 var HangoutsBot = require('./hangouts-bot');
 var os = require('os');
+var debug = require('debug')('xpl-xmpp');
 
 commander.version(require("./package.json").version);
 
@@ -47,7 +48,7 @@ commander.command('*').description("Start processing XMPP").action(
         // xpl.sendXplTrig(body, callback);
 
         bot.on("message", function(from, message) {
-          console.log("Receive XMPP", from, message);
+          debug("Receive XMPP", from, message);
 
           xpl.sendXplTrig({
             from : from,
@@ -56,7 +57,7 @@ commander.command('*').description("Start processing XMPP").action(
         });
 
         xpl.on("xpl:xpl-cmnd", function(message) {
-          console.log("Receive XPL", message);
+          debug("Receive XPL", message);
 
           if (message.bodyName !== "xmpp.post") {
             return;
