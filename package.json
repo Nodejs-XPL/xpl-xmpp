@@ -1,0 +1,25 @@
+{
+  "name": "xpl-xmpp",
+  "version": "1.0.0",
+  "description": "XPL bridge for XMPP",
+  "bin": {
+  	"xpl-xmpp": "./bin/xpl-xmpp"
+  },
+  "dependencies": {
+	  "xpl-api": ">=1.0.13",
+	  "commander": "~2.3",
+	  "node-xmpp-client": "latest"
+  },
+  "keywords": [
+    "XPL",
+    "xmpp", "hangout"
+  ],
+  "files": [
+    "xpl-xmpp.js",
+    "bin/xpl-xmpp"
+	],
+  "repository": { "type": "git", "url": "https://github.com/oeuillot/xpl-milight.git" },
+  "author": "Olivier Oeuillot",
+  "license": "GPL",
+  "readmeFilename": "README.md"
+}
