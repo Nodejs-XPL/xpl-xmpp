@@ -14,8 +14,8 @@ function HangoutsBot(username, password, host, onlineStatus) {
     jid : username,
     password : password,
     host : "talk.google.com",
-    port: 5222,
-    preferred: "PLAIN"
+    port : 5222,
+    preferred : "PLAIN"
   });
   this.connection = connection;
 
@@ -57,6 +57,8 @@ function HangoutsBot(username, password, host, onlineStatus) {
   });
 }
 
+util.inherits(HangoutsBot, Events.EventEmitter);
+
 HangoutsBot.prototype.sendMessage = function(to, message) {
   var stanza = new xmpp.Element('message', {
     to : to,
@@ -65,7 +67,5 @@ HangoutsBot.prototype.sendMessage = function(to, message) {
 
   this.connection.send(stanza);
 }
-
-util.inherits(HangoutsBot, Events.EventEmitter);
 
 module.exports = HangoutsBot;
