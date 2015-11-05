@@ -67,8 +67,10 @@ HangoutsBot.prototype.sendMessage = function(to, message) {
 
   var body = stanza.c('body');
   body.t(message);
-  body.c('img').attr("src",
-      "data:image/png;base64,VGhlIGltYWdlIGRhdGEgZ29lcyBoZXJlCg==");
+  body
+      .c('img')
+      .attr("src",
+          "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-camera-128.png");
 
   this.connection.send(stanza);
 }
