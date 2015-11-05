@@ -63,7 +63,9 @@ HangoutsBot.prototype.sendMessage = function(to, message) {
   var stanza = new xmpp.Element('message', {
     to : to,
     type : 'chat'
-  }).c('body').t(message);
+  });
+
+  stanza.c('body').t(message);
 
   this.connection.send(stanza);
 }
