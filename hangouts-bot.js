@@ -65,7 +65,10 @@ HangoutsBot.prototype.sendMessage = function(to, message) {
     type : 'chat'
   });
 
-  stanza.c('body').t(message);
+  var body = stanza.c('body');
+  body.t(message);
+  body.c('img').attr("src",
+      "data:image/png;base64,VGhlIGltYWdlIGRhdGEgZ29lcyBoZXJlCg==");
 
   this.connection.send(stanza);
 }
