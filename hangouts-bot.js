@@ -1,12 +1,12 @@
 /*jslint node: true, vars: true, nomen: true */
 'use strict';
 
-var events = require('events');
+var Events = require('events');
 var xmpp = require('node-xmpp-client');
 var util = require('util');
 
 function HangoutsBot(username, password, host, onlineStatus) {
-  events.EventEmitter.call(this);
+  Events.EventEmitter.call(this);
 
   var that = this;
 
