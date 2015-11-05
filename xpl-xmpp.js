@@ -10,6 +10,7 @@ commander.option("--username <username>", "Xmpp username");
 commander.option("--password <password>", "Xmpp password");
 commander.option("--host <host>", "Xmpp host");
 commander.option("--defaultTO <users>", "Default users");
+commander.option("--onlineStatus <status>", "Online status");
 
 Xpl.fillCommander(commander);
 
@@ -18,7 +19,7 @@ commander.command('*').description("Start processing XMPP").action(
       console.log("Start");
 
       var bot = new HangoutsBot(commander.username, commander.password,
-          commander.host || "talk.google.com", dd);
+          commander.host || "talk.google.com", commander.onlineStatus);
 
       if (!commander.xplSource) {
         var hostName = os.hostname();
