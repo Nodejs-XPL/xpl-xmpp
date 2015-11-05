@@ -13,7 +13,9 @@ function HangoutsBot(username, password, host, onlineStatus) {
   var connection = new xmpp.Client({
     jid : username,
     password : password,
-    host : "talk.google.com"
+    host : "talk.google.com",
+    port: 5222,
+    preferred: "PLAIN"
   });
   this.connection = connection;
 
