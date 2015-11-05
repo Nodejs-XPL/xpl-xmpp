@@ -47,6 +47,8 @@ commander.command('*').description("Start processing XMPP").action(
         // xpl.sendXplTrig(body, callback);
 
         bot.on("message", function(from, message) {
+          console.log("Receive XMPP", from, message);
+
           xpl.sendXplTrig({
             from : from,
             message : message
@@ -54,6 +56,8 @@ commander.command('*').description("Start processing XMPP").action(
         });
 
         xpl.on("xpl:xmpp-cmnd", function(message) {
+          console.log("Receive XPL", message);
+
           if (message.bodyName !== "xmpp.post") {
             return;
           }
