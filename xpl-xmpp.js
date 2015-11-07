@@ -47,13 +47,21 @@ commander.command('*').description("Start processing XMPP").action(
         console.log("Xpl bind succeed ");
         // xpl.sendXplTrig(body, callback);
 
+        bot.on("online", function() {
+
+          xpl.sendXplTrig({
+            online : true
+          }, "xmpp.basic");
+
+        });
+
         bot.on("message", function(from, message) {
           debug("Receive XMPP", from, message);
 
           xpl.sendXplTrig({
             from : from,
             message : message
-          }, "xmpp.received");
+          }, "xmpp.basic");
         });
 
         xpl.on("xpl:xpl-cmnd", function(message) {

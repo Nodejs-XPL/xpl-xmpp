@@ -19,7 +19,7 @@
     "xpl-xmpp.js",
     "bin/xpl-xmpp"
 	],
-  "repository": { "type": "git", "url": "https://github.com/oeuillot/xpl-milight.git" },
+  "repository": { "type": "git", "url": "https://github.com/oeuillot/xpl-xmpp.git" },
   "author": "Olivier Oeuillot",
   "license": "GPL",
   "readmeFilename": "README.md"
