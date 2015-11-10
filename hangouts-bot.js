@@ -15,7 +15,8 @@ function HangoutsBot(username, password, host, onlineStatus) {
     password : password,
     host : "talk.google.com",
     port : 5222,
-    preferred : "PLAIN"
+    preferred : "PLAIN",
+    reconnect : true
   });
   this.connection = connection;
 
@@ -57,7 +58,8 @@ function HangoutsBot(username, password, host, onlineStatus) {
   });
 
   connection.on('error', function(e) {
-    console.error(e);
+    console.error("Connection error", e);
+    self.emit('error', e);
   });
 }
 
