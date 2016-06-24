@@ -42,7 +42,9 @@ class HangoutsBot extends Events {
     });
 
     connection.on('stanza', (stanza) => {
-      debug("Receive stanza=",stanza);
+      if (debug.enabled) {
+        debug("Receive stanza=", utils.inspect(stanza, {depth: null}));
+      }
 
       if (stanza.is('message') && (stanza.attrs.type !== 'error') &&
           (stanza.getChildText('body'))) {
@@ -61,7 +63,8 @@ class HangoutsBot extends Events {
     connection.on('error', (e) => {
       debug("Receive error=",e);
       
-      console.error("Connection error", e);
+      
+.error("Connection error", e);
       this.emit('error', e);
     });
   }
