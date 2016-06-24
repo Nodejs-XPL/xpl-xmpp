@@ -1,8 +1,10 @@
-var Xpl = require("xpl-api");
-var commander = require('commander');
-var HangoutsBot = require('./hangouts-bot');
-var os = require('os');
-var debug = require('debug')('xpl-xmpp');
+/*jslint node: true, vars: true, nomen: true, esversion: 6 */
+
+const Xpl = require("xpl-api");
+const commander = require('commander');
+const HangoutsBot = require('./hangouts-bot');
+const os = require('os');
+const debug = require('debug')('xpl-xmpp');
 
 commander.version(require("./package.json").version);
 
@@ -15,9 +17,8 @@ commander.option("--onlineStatus <status>", "Online status");
 
 Xpl.fillCommander(commander);
 
-commander.command('*').description("Start processing XMPP").action(
-    function() {
-      console.log("Start");
+commander.command('*').description("Start processing XMPP").action( () => {
+      console.log("Starting ...");
 
       var bot = new HangoutsBot(commander.username, commander.password,
           commander.host || "talk.google.com", commander.onlineStatus);
@@ -33,11 +34,11 @@ commander.command('*').description("Start processing XMPP").action(
 
       var xpl = new Xpl(commander);
 
-      xpl.on("error", function(error) {
+      xpl.on("error", (error) => {
         console.error("XPL error", error);
       });
 
-      xpl.bind(function(error) {
+      xpl.bind((error) => {
         if (error) {
           console.log("Can not open xpl bridge ", error);
           process.exit(2);
@@ -47,7 +48,7 @@ commander.command('*').description("Start processing XMPP").action(
         console.log("Xpl bind succeed ");
         // xpl.sendXplTrig(body, callback);
 
-        bot.on("online", function() {
+        bot.on("online", () => {
 
           xpl.sendXplTrig({
             online : true
@@ -55,7 +56,7 @@ commander.command('*').description("Start processing XMPP").action(
 
         });
 
-        bot.on("message", function(from, message) {
+        bot.on("message", (from, message) => {
           debug("Receive XMPP", from, message);
 
           xpl.sendXplTrig({
@@ -64,7 +65,7 @@ commander.command('*').description("Start processing XMPP").action(
           }, "xmpp.basic");
         });
 
-        xpl.on("xpl:xpl-cmnd", function(message) {
+        xpl.on("xpl:xpl-cmnd", (message) => {
           debug("Receive XPL", message);
 
           if (message.bodyName !== "xmpp.post") {
@@ -79,7 +80,7 @@ commander.command('*').description("Start processing XMPP").action(
             return;
           }
 
-          to.split(",").forEach(function(t) {
+          to.split(",").forEach((t) => {
             t = t.trim();
 
             bot.sendMessage(t, message.body.message);
