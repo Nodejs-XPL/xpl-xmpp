@@ -76,7 +76,7 @@ class HangoutsBot extends Events {
 
     var b = stanza.c('body');
 
-    message.split('\n').forEach((l) => b.append(b.t(message)));
+    message.split('\n').forEach((l) => b.t(message));
 
     debug("Send message=",stanza);
 
