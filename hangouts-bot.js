@@ -22,7 +22,7 @@ class HangoutsBot extends Events {
 
     connection.on('online', () => {
       debug("Send online presence status");
-      
+
       connection.send(new xmpp.Element('presence', {}).c('show').t('chat').up()
           .c('status').t(onlineStatus || 'Online'));
 
@@ -48,7 +48,7 @@ class HangoutsBot extends Events {
 
       if (stanza.is('message') && (stanza.attrs.type !== 'error') &&
           (stanza.getChildText('body'))) {
-        
+
         this.emit('message', stanza.attrs.from, stanza.getChildText('body'));
       }
 
@@ -62,9 +62,8 @@ class HangoutsBot extends Events {
 
     connection.on('error', (e) => {
       debug("Receive error=",e);
-      
-      
-.error("Connection error", e);
+
+      console .error("Connection error", e);
       this.emit('error', e);
     });
   }
@@ -76,11 +75,11 @@ class HangoutsBot extends Events {
     });
 
     var b = stanza.c('body');
-    
+
     message.split('\n').forEach((l) => b.append(b.t(message)));
 
     debug("Send message=",stanza);
-    
+
     this.connection.send(stanza);
   }
 }
