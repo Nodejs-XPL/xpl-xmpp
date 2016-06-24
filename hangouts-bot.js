@@ -74,9 +74,7 @@ class HangoutsBot extends Events {
       type : 'chat'
     });
 
-    var b = stanza.c('body');
-
-    message.split('\n').forEach((l) => b.t(l));
+    var b = stanza.c('body').t(message);
 
     debug("Send message=",stanza);
 
