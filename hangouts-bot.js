@@ -43,7 +43,7 @@ class HangoutsBot extends Events {
 
     connection.on('stanza', (stanza) => {
       if (debug.enabled) {
-        debug("Receive stanza=", utils.inspect(stanza, {depth: null}));
+        debug("Receive stanza=", util.inspect(stanza, {depth: null}));
       }
 
       if (stanza.is('message') && (stanza.attrs.type !== 'error') &&
