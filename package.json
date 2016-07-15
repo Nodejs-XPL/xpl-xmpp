@@ -8,7 +8,7 @@
   "dependencies": {
     "commander": "~2.3",
     "debug": "^2.2.0",
-    "node-xmpp-client": "latest",
+    "node-xmpp-client": "^3.0",
     "xpl-api": ">=1.0.13"
   },
   "keywords": [
