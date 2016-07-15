@@ -93,7 +93,7 @@ commander.command('*').description("Start processing XMPP").action(() => {
 				}
 
 				var type = message.body.type;
-				if (!type.exec(/^(inactive|composing|pause)$/i)) {
+				if (!/^(inactive|composing|pause)$/i.exec(type)) {
 					console.error("Invalid composing type=", type);
 					return;
 				}
