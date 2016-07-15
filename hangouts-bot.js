@@ -108,7 +108,7 @@ class HangoutsBot extends Events {
 	 * @param {string} to
 	 * @param {string} [type] - Type of composing
 	 */
-	sendComposing(to, message, type) {
+	sendComposing(to, type) {
 		if (!type) {
 			type = "composing";
 		}
