@@ -12,86 +12,106 @@ commander.option("--heapDump", "Enable heap dump (require heapdump)");
 commander.option("--username <username>", "Xmpp username");
 commander.option("--password <password>", "Xmpp password");
 commander.option("--host <host>", "Xmpp host");
+commander.option("--port <port>", "Xmpp port", parseInt);
 commander.option("--defaultTO <users>", "Default users");
 commander.option("--onlineStatus <status>", "Online status");
 
 Xpl.fillCommander(commander);
 
-commander.command('*').description("Start processing XMPP").action( () => {
-      console.log("Starting ...");
+commander.command('*').description("Start processing XMPP").action(() => {
+	console.log("Starting ...");
 
-      var bot = new HangoutsBot(commander.username, commander.password,
-          commander.host || "talk.google.com", commander.onlineStatus);
+	var bot = new HangoutsBot(commander.username, commander.password,
+		commander.host, commander.port, commander.onlineStatus);
 
-      if (!commander.xplSource) {
-        var hostName = os.hostname();
-        if (hostName.indexOf('.') > 0) {
-          hostName = hostName.substring(0, hostName.indexOf('.'));
-        }
+	if (!commander.xplSource) {
+		var hostName = os.hostname();
+		if (hostName.indexOf('.') > 0) {
+			hostName = hostName.substring(0, hostName.indexOf('.'));
+		}
 
-        commander.xplSource = "xmpp." + hostName;
-      }
+		commander.xplSource = "xmpp." + hostName;
+	}
 
-      var xpl = new Xpl(commander);
+	var xpl = new Xpl(commander);
 
-      xpl.on("error", (error) => {
-        console.error("XPL error", error);
-      });
+	xpl.on("error", (error) => {
+		console.error("XPL error", error);
+	});
 
-      xpl.bind((error) => {
-        if (error) {
-          console.log("Can not open xpl bridge ", error);
-          process.exit(2);
-          return;
-        }
+	xpl.bind((error) => {
+		if (error) {
+			console.log("Can not open xpl bridge ", error);
+			process.exit(2);
+			return;
+		}
 
-        console.log("Xpl bind succeed ");
-        // xpl.sendXplTrig(body, callback);
+		console.log("Xpl bind succeed ");
+		// xpl.sendXplTrig(body, callback);
 
-        bot.on("online", () => {
+		bot.on("online", () => {
 
-          xpl.sendXplTrig({
-            online : true
-          }, "xmpp.basic");
+			xpl.sendXplTrig({
+				online: true
+			}, "xmpp.basic");
 
-        });
+		});
 
-        bot.on("message", (from, message) => {
-          debug("Receive XMPP", from, message);
+		bot.on("message", (from, message) => {
+			debug("Receive XMPP", from, message);
 
-          xpl.sendXplTrig({
-            from : from,
-            message : message
-          }, "xmpp.basic");
-        });
+			xpl.sendXplTrig({
+				from: from,
+				message: message
+			}, "xmpp.basic");
+		});
 
-        xpl.on("xpl:xpl-cmnd", (message) => {
-          debug("Receive XPL", message);
+		xpl.on("xpl:xpl-cmnd", (message) => {
+			debug("Receive XPL", message);
 
-          if (message.bodyName !== "xmpp.post") {
-            return;
-          }
+			if (message.bodyName === "xmpp.post") {
+				var to = message.body.to;
+				if (!to || to === '*') {
+					to = commander.defaultTO;
+				}
+				if (!to) {
+					return;
+				}
 
-          var to = message.body.to;
-          if (!to || to === '*') {
-            to = commander.defaultTO;
-          }
-          if (!to) {
-            return;
-          }
+				to.split(",").forEach((t) => {
+					t = t.trim();
 
-          to.split(",").forEach((t) => {
-            t = t.trim();
+					bot.sendMessage(t, message.body.message);
+				});
+				return;
+			}
+			if (message.bodyName === "xmpp.composing") {
+				var to = message.body.to;
+				if (!to || to === '*') {
+					// You must identify to who you send 'composing' informations.
+					return;
+				}
 
-            bot.sendMessage(t, message.body.message);
-          });
-        });
-      });
-    });
+				var type = message.body.type;
+				if (!type.exec(/^(inactive|composing|pause)$/i)) {
+					console.error("Invalid composing type=", type);
+					return;
+				}
+
+				to.split(",").forEach((t) => {
+					t = t.trim();
+
+					bot.sendComposing(t, type);
+				});
+				return;
+			}
+		});
+	});
+});
 
 commander.parse(process.argv);
 
 if (commander.headDump) {
-  var heapdump = require("heapdump");
-  console.log("***** HEAPDUMP enabled **************");
+	var heapdump = require("heapdump");
+	console.log("***** HEAPDUMP enabled **************");
 }
